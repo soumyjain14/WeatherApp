@@ -9,6 +9,7 @@ void main() {
 }
 
 var a;
+var s;
 
 class MyApp1 extends StatefulWidget {
   @override
@@ -26,12 +27,14 @@ class _MyApp1State extends State<MyApp1> {
     var jdata = jsonDecode(data);
     setState(() {
       var r = jdata['list'][0]['main']['temp'];
+      s = jdata['list'][1]['weather'][0]['description'];
       var y = (r - 273.15).round();
 
       z = y.toString();
     });
 
     print(z + "°" + "C");
+    print(s);
   }
 
   @override
@@ -40,14 +43,21 @@ class _MyApp1State extends State<MyApp1> {
       theme: ThemeData.dark(),
       home: Scaffold(
         appBar: AppBar(
+          leading: Icon(Icons.wb_sunny),
+          elevation: 20,
+          iconTheme: IconThemeData(color: Colors.yellow),
           title: Text('Weather App'),
-          backgroundColor: Colors.blue.shade600,
+          backgroundColor: Colors.purple.shade500,
+          actions: [
+            Icon(Icons.timer),
+            
+          ],
         ),
         body: Center(
           child: Container(
-            width: 500,
-            height: 500,
-            color: Colors.blue.shade400,
+            width: double.infinity,
+            height: double.infinity,
+            color: Colors.deepPurple.shade400,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -60,7 +70,7 @@ class _MyApp1State extends State<MyApp1> {
                   cursorColor: Colors.red,
                   decoration: InputDecoration(
                     labelText: 'Enter the city name',
-                    labelStyle: TextStyle(color: Colors.black),
+                    labelStyle: TextStyle(color: Colors.yellow),
                     hintText: 'Enter city name',
                     hintStyle: TextStyle(color: Colors.black),
                     border: const OutlineInputBorder(
@@ -71,15 +81,24 @@ class _MyApp1State extends State<MyApp1> {
                   ),
                 ),
                 RaisedButton(
+                  color: Colors.orange,
                   child: Text(
                     'Click here for weather report',
-                    style: TextStyle(fontSize: 20),
+                    style: TextStyle(fontSize: 20, color: Colors.white),
                   ),
                   onPressed: () {
                     web(a);
                   },
                 ),
-                Text(z + "°" + "C" ?? "Waiting for the input city", style: TextStyle(fontSize: 30),),
+                Text(
+                  "Temperature is: " + z + "°" + "C" ??
+                      "Waiting for the input city",
+                  style: TextStyle(fontSize: 30),
+                ),
+                Text(
+                  "Weather condition: " + s ?? "Waiting for the description",
+                  style: TextStyle(fontSize: 20),
+                ),
               ],
             ),
           ),
